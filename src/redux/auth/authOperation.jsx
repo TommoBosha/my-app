@@ -18,6 +18,8 @@ export const register = createAsyncThunk(
     async (userData, { rejectWithValue }) => {
         try {
             const { data } = await axios.post('/auth/register', userData);
+            token.set(data.accessToken);
+            
             return data;
         } catch (e) {
             return rejectWithValue(e);
@@ -42,23 +44,45 @@ export const logout = createAsyncThunk(
     'auth/logout',
     async (_, { rejectWithValue }) => {
         try {
-            const { data } = await axios.post('/auth/logout');
-            return data;
+          await axios.post('/auth/logout');
+          token.unset();
         } catch (e) {
             return rejectWithValue(e);
         }
     },
 );
 
-export const getCurrentUser = createAsyncThunk(
-    '/user',
-    async (_, { rejectWithValue, getState }) => {
-        const { user } = getState();
-        const { accessToken } = user;
+// export const getCurrentUser = createAsyncThunk(
+//     '/user',
+//     async (_, { rejectWithValue, getState }) => {
+//         const { auth } = getState();
+//         const { accessToken } = auth.userData;
 
-        if (accessToken === null) {
+//         if (accessToken === null) {
+//             return rejectWithValue('Unable to fetch user');
+//         } try {
+//             token.set(accessToken);
+//             const { data } = await axios.get('/user');
+         
+//             return data;
+//         } catch (e) {
+//             return rejectWithValue(e.message);
+//         }
+//     },
+// );
+
+
+export const getCurrentUser = createAsyncThunk(
+    'user/getCurrentUser',
+    async (_, { rejectWithValue, getState }) => {
+        const { auth } = getState();
+        const { accessToken } = auth;
+
+        if (!accessToken) {
             return rejectWithValue('Unable to fetch user');
-        } try {
+        }
+
+        try {
             token.set(accessToken);
             const { data } = await axios.get('/user');
             return data;

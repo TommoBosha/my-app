@@ -1,70 +1,76 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAction, createSlice } from "@reduxjs/toolkit";
 import { register, login, logout, getCurrentUser } from "./authOperation";
 
 const initialState = {
-    userData: {},
+    userData: { email: '',},
     accessToken: '',
     isLogin: false,
     loading: false,
     error: null,
 };
+export const addAccessToken = createAction('auth/token');
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     extraReducers: {
-        [register.pending](state) {
+        [addAccessToken](state, { payload }) {
+            state.accessToken = payload
+        },
+
+        [register.pending]: (state) => {
             state.loading = true
         },
-        [register.fulfilled](state, { payload }) {
+        [register.fulfilled]: (state, { payload }) => {
             state.isLogin = true;
             state.loading = false;
             state.userData = { ...payload };
         },
-        [register.rejected](state, { payload }) {
+        [register.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },
 
-        [login.pending](state) {
+        [login.pending]: (state) => {
             state.loading = true;
         },
-        [login.fulfilled](state, { payload }) {
+        [login.fulfilled]: (state, { payload }) => {
             state.isLogin = true;
             state.loading = false;
             state.userData = { ...payload };
+            state.accessToken = payload.accessToken;
         },
-        [login.rejected](state, { payload }) {
+        [login.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },
 
-        [logout.pending](state) {
+        [logout.pending]: (state) => {
             state.loading = true;
             state.error = null;
         },
-        [logout.fulfilled](state) {
+        [logout.fulfilled]:(state) => {
             state.userData = {};
             state.accessToken = '';
             state.isLogin = false;
             state.loading = false;
-            state.error = null;
+            
         },
-        [logout.rejected](state, { payload }) {
+        [logout.rejected]:(state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },
 
-        [getCurrentUser.pending](state) {
+        [getCurrentUser.pending]:(state) => {
             state.loading = true;
             state.error = null;
         },
-        [getCurrentUser.fulfilled](state, { payload }) {
+        [getCurrentUser.fulfilled]:(state, { payload }) => {
             state.isLogin = true;
             state.loading = false;
-            state.userData = payload;
+            state.userData.email = payload.email;
         },
-        [getCurrentUser.rejected](state, { payload }) {
+        [getCurrentUser.rejected]:(state, { payload }) => {
             state.loading = false;
             state.error = payload;
             state.accessToken = '';
@@ -73,3 +79,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+
