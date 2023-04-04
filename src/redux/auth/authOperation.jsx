@@ -33,6 +33,7 @@ export const login = createAsyncThunk(
     async (userData, { rejectWithValue }) => {
         try {
             const { data } = await axios.post('/auth/login', userData);
+            // token.set(data.accessToken);
             return data;
         } catch (e) {
             return rejectWithValue(e);
@@ -52,42 +53,42 @@ export const logout = createAsyncThunk(
     },
 );
 
-export const getCurrentUser = createAsyncThunk(
-    '/user',
-    async (_, { rejectWithValue, getState }) => {
-        const { auth } = getState();
-        const { accessToken } = auth.userData;
-
-        if (accessToken === null) {
-            return rejectWithValue('Unable to fetch user');
-        } try {
-            token.set(accessToken);
-            const { data } = await axios.get('/user');
-         
-            return data;
-        } catch (e) {
-            return rejectWithValue(e.message);
-        }
-    },
-);
-
-
 // export const getCurrentUser = createAsyncThunk(
-//     'user/getCurrentUser',
+//     '/user',
 //     async (_, { rejectWithValue, getState }) => {
 //         const { auth } = getState();
-//         const { accessToken } = auth;
+//         const { accessToken } = auth.userData;
 
-//         if (!accessToken) {
+//         if (accessToken === null) {
 //             return rejectWithValue('Unable to fetch user');
-//         }
-
-//         try {
+//         } try {
 //             token.set(accessToken);
 //             const { data } = await axios.get('/user');
+         
 //             return data;
 //         } catch (e) {
 //             return rejectWithValue(e.message);
 //         }
 //     },
 // );
+
+
+export const getCurrentUser = createAsyncThunk(
+    'user/getCurrentUser',
+    async (_, { rejectWithValue, getState }) => {
+        const { auth } = getState();
+        const { accessToken } = auth;
+
+        if (!accessToken) {
+            return rejectWithValue('Unable to fetch user');
+        }
+
+        try {
+            token.set(accessToken);
+            const { data } = await axios.get('/user');
+            return data;
+        } catch (e) {
+            return rejectWithValue(e.message);
+        }
+    },
+);
