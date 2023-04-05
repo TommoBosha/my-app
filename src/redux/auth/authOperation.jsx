@@ -2,6 +2,7 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 
+
 axios.defaults.baseURL = 'https://protest-backend.goit.global/';
 
 export const token = {
@@ -15,11 +16,11 @@ export const token = {
 
 export const register = createAsyncThunk(
     'auth/register',
-    async (userData, { rejectWithValue }) => {
+    async (credentials, { rejectWithValue }) => {
         try {
-            const { data } = await axios.post('/auth/register', userData);
-            token.set(data.accessToken);
-            
+            const {data} =  await axios.post('/auth/register', credentials);
+           console.log(data)
+            //  token.set(data.accessToken);
             return data;
         } catch (e) {
             return rejectWithValue(e);
@@ -28,12 +29,14 @@ export const register = createAsyncThunk(
     },
 );
 
+
 export const login = createAsyncThunk(
     'auth/login',
     async (userData, { rejectWithValue }) => {
         try {
             const { data } = await axios.post('/auth/login', userData);
-            // token.set(data.accessToken);
+            token.set(data.accessToken);
+            getCurrentUser();
             return data;
         } catch (e) {
             return rejectWithValue(e);
