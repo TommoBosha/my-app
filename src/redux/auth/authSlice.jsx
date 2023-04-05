@@ -22,9 +22,11 @@ const authSlice = createSlice({
             state.loading = true
         },
         [register.fulfilled]: (state, { payload }) => {
+            state.userData = { ...payload };
             state.isLogin = true;
             state.loading = false;
-            state.userData = { ...payload };
+            
+            //  state.accessToken = payload.accessToken;
         },
         [register.rejected]: (state, { payload }) => {
             state.loading = false;
@@ -37,7 +39,7 @@ const authSlice = createSlice({
         [login.fulfilled]: (state, { payload }) => {
             state.isLogin = true;
             state.loading = false;
-            state.userData = { ...payload };
+            state.userData = { ...payload.userData };
             state.accessToken = payload.accessToken;
         },
         [login.rejected]: (state, { payload }) => {
