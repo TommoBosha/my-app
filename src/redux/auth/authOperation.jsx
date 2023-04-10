@@ -16,11 +16,11 @@ export const token = {
 
 export const register = createAsyncThunk(
     'auth/register',
-    async (credentials, { rejectWithValue }) => {
+    async (credentials, { rejectWithValue,dispatch }) => {
         try {
             const {data} =  await axios.post('/auth/register', credentials);
            console.log(data)
-            //  token.set(data.accessToken);
+           dispatch(login({email:credentials.email, password:credentials.password}))
             return data;
         } catch (e) {
             return rejectWithValue(e);

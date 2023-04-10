@@ -22,10 +22,7 @@ const AuthForm = () => {
             <Formik
                 initialValues={{ email: "", password: "" }}
                 validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting }) => {
-                    dispatch(login(values));
-                    setSubmitting(false);
-                }}
+                onSubmit
             >
                 {({
                     values,
@@ -34,7 +31,8 @@ const AuthForm = () => {
                     handleChange,
                     handleBlur,
                     handleSubmit,
-                    isSubmitting
+                    isSubmitting,
+                    onSubmit
                 }) => (
                     <div>
                         <h2>Login to our app using e-mail and password:</h2>
@@ -60,6 +58,7 @@ const AuthForm = () => {
                                     type="submit"
                                     value="signin"
                                     disabled={isSubmitting}
+                                    onClick={() => dispatch(login(values))}
                                 >
                                     SIGN IN
                                 </button>
