@@ -1,8 +1,7 @@
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 const TestForm = () => {
-  const dispatch = useDispatch();
-
+  // const dispatch = useDispatch();
   return (
     <form>
       <h1>[ Testing theory_ ]</h1>
