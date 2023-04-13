@@ -1,10 +1,11 @@
-
+import TestForm from "../../components/TestForm/TestForm";
 
 const TestPage = () => {
-    
-    return (
-        <></>
-    )
+  return (
+    <>
+      <TestForm />
+    </>
+  );
 };
 
 export default TestPage;
