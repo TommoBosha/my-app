@@ -6,7 +6,7 @@ import useLogin from "../../hooks/useLogin";
 // import AuthForm from "../AuthForm/AuthForm";
 import Loader from "../Loader/Loader";
 import Navigation from "../Navigation/Navigation";
-import UserMenu from "../Navigation/UserMenu/UserMenu";
+// import UserMenu from "../Navigation/UserMenu/UserMenu";
 
 const Layout = () => {
     const isLogin = useLogin();
@@ -15,7 +15,7 @@ const Layout = () => {
         <div>
             <header>
                 <Navigation />
-                {isLogin && <UserMenu />}
+                {/* {isLogin && <UserMenu />} */}
                 {/* : <AuthForm/> */}
             </header>
             <Suspense fallback={<Loader />}>

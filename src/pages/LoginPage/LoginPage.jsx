@@ -35,7 +35,7 @@ const LoginPage = () => {
           </Typography>
         </Box>
         <Box sx={{
-          backgroundImage: "url(https://source.unsplash.com/random?tests&study&qa)",
+          backgroundImage: "url(https://source.unsplash.com/random?tests&it&qa)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           height: "100%",

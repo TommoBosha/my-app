@@ -1,16 +1,28 @@
 // import { useCallback } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { getTechTest, getTheoryTest } from "../../redux/test/testOperation";
+import { testingType } from "../../redux/test/testSlice";
+
 
 
 const HomePage = () => {
 
-    // const dispatch = useDispatch();
-    // const getType = useCallback( 
-    //     (type) => {
-    //         dispatch((type))
-    //     },[dispatch]
-    // )
+    const dispatch = useDispatch();
+   const getQuestions = async (e) => {
+    const btnValue = e.target.innerText;
+    dispatch(testingType(btnValue));
+    try {
+      if (btnValue === "QA technical training") {
+        await dispatch(getTechTest());
+      } else if (btnValue === "Testing theory") {
+        await dispatch(getTheoryTest());
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
     return (
         <section>
             <div>
@@ -26,13 +38,13 @@ const HomePage = () => {
                 </p>
                 <div>
                     <Link
-                        // onClick={() => getType({})}
+                        onClick={getQuestions}
                         to="/test"
                     >
                         QA technical training
                     </Link>
                     <Link
-                        // onClick={() =>getType ({})}
+                        onClick={getQuestions}
                     to="/test"
                     >
                     Testing theory
